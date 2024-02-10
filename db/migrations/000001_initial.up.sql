@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS people(
+    id serial PRIMARY KEY,
+    first_name VARCHAR (128) NOT NULL,
+    last_name VARCHAR(128) NOT NULL,
+    title VARCHAR(128) DEFAULT NULL,
+    Company VARCHAR(128) DEFAULT NULL,
+    Age INT DEFAULT NULL,
+    Married BOOLEAN DEFAULT NULL
+)

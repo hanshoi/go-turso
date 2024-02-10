@@ -1,0 +1,4 @@
+tmp/
+my.db*
+node_modules/
+**/*_templ.go
