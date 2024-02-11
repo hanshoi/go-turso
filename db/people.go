@@ -19,7 +19,7 @@ type Person struct {
 
 func GetAllPeople(db *sql.DB) []Person {
 	var people []Person
-	rows, err := db.Query("SELECT * FROM people")
+	rows, err := db.Query("SELECT * FROM people limit 30")
 	if err != nil {
 		log.Fatalln(err)
 		return people
@@ -40,7 +40,7 @@ func GetAllPeople(db *sql.DB) []Person {
 func SearchPeople(db *sql.DB, keyword string) []Person {
 	var people []Person
 	// rows, err := db.Query(`SELECT * FROM people WHERE first_name LIKE ? || '%'`, keyword)
-	rows, err := db.Query(`SELECT * FROM searchable_people WHERE first_name=? OR last_name=? OR title=? OR company=?`, keyword, keyword, keyword, keyword)
+	rows, err := db.Query(`SELECT * FROM searchable_people WHERE first_name=? OR last_name=? OR title=? OR company=? limit 30`, keyword, keyword, keyword, keyword)
 	if err != nil {
 		log.Fatalln(err)
 		return people
