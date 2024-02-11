@@ -17,7 +17,7 @@ type Person struct {
 	Married   bool
 }
 
-func GetPeople(db *sql.DB) []Person {
+func GetAllPeople(db *sql.DB) []Person {
 	var people []Person
 	rows, err := db.Query("SELECT * FROM people")
 	if err != nil {
@@ -29,6 +29,26 @@ func GetPeople(db *sql.DB) []Person {
 	for rows.Next() {
 		var person Person
 		if err := rows.Scan(&person.Id, &person.FirstName, &person.LastName, &person.Title, &person.Company, &person.Age, &person.Married); err != nil {
+			log.Fatalln(err)
+			return people
+		}
+		people = append(people, person)
+	}
+	return people
+}
+
+func SearchPeople(db *sql.DB, keyword string) []Person {
+	var people []Person
+	rows, err := db.Query("SELECT * FROM searchable_people WHERE searchable_people MATCH ?", keyword)
+	if err != nil {
+		log.Fatalln(err)
+		return people
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var person Person
+		if err := rows.Scan(&person.Id, &person.FirstName, &person.LastName, &person.Title, &person.Company); err != nil {
 			log.Fatalln(err)
 			return people
 		}

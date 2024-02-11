@@ -15,7 +15,8 @@ type MyHandlerFunction func(echo.Context, *sql.DB) error
 
 func CreateRoutes(app *echo.Echo, db *sql.DB) {
 	app.GET("/", wrap(people, db))
-	app.GET("/detail/", wrap(detail, db))
+	app.POST("/search/", wrap(search, db))
+	app.GET("/detail/:id", wrap(detail, db))
 	app.GET("/about/", about)
 }
 
@@ -25,14 +26,21 @@ func wrap(handler MyHandlerFunction, db *sql.DB) echo.HandlerFunc {
 	}
 }
 
-func people(ctx echo.Context, db *sql.DB) error {
-	// cc := &utils.HtmxContext{Context: ctx}
-	// name := "Stacy"
-	// if cc.IsHtmx() {
-	// 	name = "Randy"
-	// }
+func search(ctx echo.Context, db *sql.DB) error {
+	keyword := ctx.FormValue("search")
+	var people []repo.Person
+	if len(keyword) > 0 {
+		people = repo.SearchPeople(db, keyword)
+	} else {
+		people = repo.GetAllPeople(db)
+	}
 
-	people := repo.GetPeople(db)
+	return utils.Render(ctx, http.StatusOK, templates.ListPeople(people))
+}
+
+func people(ctx echo.Context, db *sql.DB) error {
+	people := repo.GetAllPeople(db)
+
 	if len(people) == 0 {
 		return utils.RenderPage(ctx, http.StatusOK, templates.PeoplePageType, templates.EmptyListPage())
 	}

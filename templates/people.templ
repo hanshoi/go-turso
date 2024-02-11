@@ -34,20 +34,8 @@ templ PeoplePage(people []db.Person) {
 											</th>
 										</tr>
 									</thead>
-									<tbody class="divide-y divide-gray-800">
-										for _, person := range people {
-											<tr>
-												<td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-white sm:pl-0">{ person.FirstName }</td>
-												<td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-white sm:pl-0">{ person.LastName }</td>
-												<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-300">{ person.Title }</td>
-												<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-300">{ person.Company }</td>
-												<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-300">{ fmt.Sprintf("%v", person.Age) }</td>
-												<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-300">{ fmt.Sprintf("%v", person.Married) }</td>
-												<td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-													<a href="/detail/{ person.Id }" class="text-amber-400 hover:text-amber-300">Edit<span class="sr-only">, { person.FirstName } { person.LastName }</span></a>
-												</td>
-											</tr>
-										}
+									<tbody class="divide-y divide-gray-800" id="search-results">
+										@ListPeople(people)
 									</tbody>
 								</table>
 							</div>
@@ -57,6 +45,22 @@ templ PeoplePage(people []db.Person) {
 			</div>
 		</div>
 	</div>
+}
+
+templ ListPeople(people []db.Person) {
+	for _, person := range people {
+		<tr>
+			<td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-white sm:pl-0">{ person.FirstName }</td>
+			<td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-white sm:pl-0">{ person.LastName }</td>
+			<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-300">{ person.Title }</td>
+			<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-300">{ person.Company }</td>
+			<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-300">{ fmt.Sprintf("%v", person.Age) }</td>
+			<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-300">{ fmt.Sprintf("%v", person.Married) }</td>
+			<td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
+				<a href="/detail/{ person.Id }" class="text-amber-400 hover:text-amber-300">Edit<span class="sr-only">, { person.FirstName } { person.LastName }</span></a>
+			</td>
+		</tr>
+	}
 }
 
 templ EmptyListPage() {
