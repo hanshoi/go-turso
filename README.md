@@ -45,7 +45,7 @@ turso db show test
 ### Usage
 
 ```shell
-migrate -database "sqlite://my.db" -path db/migrations up
+turso db shell solid-spitfire < db/migrations/000001_initial.up.sql
 air server --port 3000
 ```
 

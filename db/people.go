@@ -39,7 +39,8 @@ func GetAllPeople(db *sql.DB) []Person {
 
 func SearchPeople(db *sql.DB, keyword string) []Person {
 	var people []Person
-	rows, err := db.Query("SELECT * FROM searchable_people WHERE searchable_people MATCH ?", keyword)
+	// rows, err := db.Query(`SELECT * FROM people WHERE first_name LIKE ? || '%'`, keyword)
+	rows, err := db.Query(`SELECT * FROM searchable_people WHERE first_name=? OR last_name=? OR title=? OR company=?`, keyword, keyword, keyword, keyword)
 	if err != nil {
 		log.Fatalln(err)
 		return people
@@ -48,7 +49,7 @@ func SearchPeople(db *sql.DB, keyword string) []Person {
 
 	for rows.Next() {
 		var person Person
-		if err := rows.Scan(&person.Id, &person.FirstName, &person.LastName, &person.Title, &person.Company); err != nil {
+		if err := rows.Scan(&person.FirstName, &person.LastName, &person.Title, &person.Company); err != nil {
 			log.Fatalln(err)
 			return people
 		}
