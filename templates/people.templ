@@ -35,6 +35,7 @@ templ PeoplePage(people []db.Person) {
 										</tr>
 									</thead>
 									<tbody class="divide-y divide-gray-800" id="search-results">
+										<div class="htmx-indicator"></div>
 										@ListPeople(people)
 									</tbody>
 								</table>
