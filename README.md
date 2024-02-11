@@ -30,3 +30,22 @@ turso dev --db-file my.db
 migrate -database "sqlite://my.db" -path db/migrations up
 air server --port 3000
 ```
+
+## Turso Remote DB
+
+### Setup
+
+Save token and db url to .env file
+```shell
+turso db create --enable-extensions test
+turso token create test
+turso db show test
+```
+
+### Usage
+
+```shell
+migrate -database "sqlite://my.db" -path db/migrations up
+air server --port 3000
+```
+

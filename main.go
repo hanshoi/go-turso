@@ -10,13 +10,24 @@ import (
 
 	"goh/go-htmx/routes"
 
+	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	repo "goh/go-htmx/db"
 )
 
 func main() {
-	url := "http://127.0.0.1:8080"
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatalf("Error loading .env file: %s", err)
+	}
+
+	url := os.Getenv("DB_URL")
+	token := os.Getenv("DB_TOKEN")
+
+	if len(token) > 0 {
+		url = url + "?authToken=" + token
+	}
 
 	db, err := sql.Open("libsql", url)
 	if err != nil {
