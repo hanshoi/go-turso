@@ -19,7 +19,7 @@ import (
 func main() {
 	err := godotenv.Load(".env")
 	if err != nil {
-		fmt.Fprintf(os.Stdout, ".env not foundfile: %s\n", err)
+		fmt.Fprintf(os.Stdout, ".env not found: %s\n", err)
 	}
 
 	url := os.Getenv("DB_URL")
@@ -30,7 +30,7 @@ func main() {
 	}
 
 	if len(url) == 0 {
-		fmt.Fprintf(os.Stderr, "No DB url given %s\n", url)
+		fmt.Fprintf(os.Stderr, "No DB url given. Set ENV var or .env file %s\n", url)
 		os.Exit(1)
 	}
 

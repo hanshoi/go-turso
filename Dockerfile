@@ -27,6 +27,7 @@ FROM golang:1.21-alpine as run
 RUN mkdir -p /web
 WORKDIR /web
 COPY --from=go-build /usr/local/bin/app /web/app
+COPY --from=go-build /usr/src/app/.env /web/.env
 COPY --from=node-build /build/static /web/static
 
 CMD ["/web/app"]

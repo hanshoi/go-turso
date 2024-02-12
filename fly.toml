@@ -1,20 +1,20 @@
-# fly.toml app configuration file generated for turso-solitary-forest-4520 on 2024-02-12T09:49:45+02:00
+# fly.toml app configuration file generated for turso-solitary-forest-4520-autumn-cherry-8457 on 2024-02-12T10:49:46+02:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'turso-solitary-forest-4520'
+app = 'turso-solitary-forest-4520-autumn-cherry-8457'
 primary_region = 'arn'
 
 [build]
-  builder = 'paketobuildpacks/builder:base'
-  buildpacks = ['gcr.io/paketo-buildpacks/go']
+  dockerfile = 'Dockerfile'
+  ignorefile = '.dockerignore'
+  build-target = 'run'
 
 [env]
-  PORT = '8080'
 
 [http_service]
-  internal_port = 8080
+  internal_port = 3000
   force_https = true
   auto_stop_machines = true
   auto_start_machines = true
