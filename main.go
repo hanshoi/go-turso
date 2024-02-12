@@ -19,7 +19,7 @@ import (
 func main() {
 	err := godotenv.Load(".env")
 	if err != nil {
-		log.Fatalf("Error loading .env file: %s", err)
+		fmt.Fprintf(os.Stdout, ".env not foundfile: %s\n", err)
 	}
 
 	url := os.Getenv("DB_URL")
@@ -29,9 +29,14 @@ func main() {
 		url = url + "?authToken=" + token
 	}
 
+	if len(url) == 0 {
+		fmt.Fprintf(os.Stderr, "No DB url given %s\n", url)
+		os.Exit(1)
+	}
+
 	db, err := sql.Open("libsql", url)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "failed to open db %s: %s", url, err)
+		fmt.Fprintf(os.Stderr, "failed to open db %s: %s\n", url, err)
 		os.Exit(1)
 	}
 	defer db.Close()

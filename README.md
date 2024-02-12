@@ -16,9 +16,11 @@ As there is a bunch of things that need to be generated and built for a full ser
 ## Prequisities
 
 - install turso-cli https://docs.turso.tech/cli/introduction
+- install flyctl 
 
 ```shell
 npm install -D tailwindcss
+go install github.com/a-h/templ/cmd/templ@latest
 go install github.com/cosmtrek/air@latest
 go install -tags 'sqlite' github.com/golang-migrate/migrate/v4/cmd/migrate@latest
 ```

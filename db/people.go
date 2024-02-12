@@ -76,7 +76,7 @@ func CreateTestPeople(db *sql.DB) {
 	titles := []string{"CEO", "CTO", "Peon", "Peasant", "CEO of HTMX", "Priest", "Butcher"}
 	companies := []string{"Quteo", "Bad Company"}
 
-	for range 1000 {
+	for i := 1; i <= 10000; i++ {
 		fn := firstnames[rand.Intn(len(firstnames))]
 		ln := lastnames[rand.Intn(len(lastnames))]
 		title := titles[rand.Intn(len(titles))]
