@@ -39,7 +39,6 @@ func GetAllPeople(db *sql.DB) []Person {
 
 func SearchPeople(db *sql.DB, keyword string) []Person {
 	var people []Person
-	// rows, err := db.Query(`SELECT * FROM people WHERE first_name LIKE ? || '%'`, keyword)
 	rows, err := db.Query(`SELECT * FROM searchable_people WHERE searchable_people MATCH ? || '*' limit 30`, keyword)
 	if err != nil {
 		log.Fatalln(err)

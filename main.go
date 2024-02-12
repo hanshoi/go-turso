@@ -9,30 +9,25 @@ import (
 	_ "github.com/tursodatabase/libsql-client-go/libsql"
 
 	"goh/go-htmx/routes"
+	"goh/go-htmx/turso"
 
-	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	repo "goh/go-htmx/db"
+	"goh/go-htmx/utils"
 )
 
 func main() {
-	err := godotenv.Load(".env")
+	settings := utils.LoadSettings()
+
+	url, err := settings.DB.GetURL()
 	if err != nil {
-		fmt.Fprintf(os.Stdout, ".env not found: %s\n", err)
-	}
-
-	url := os.Getenv("DB_URL")
-	token := os.Getenv("DB_TOKEN")
-
-	if len(token) > 0 {
-		url = url + "?authToken=" + token
-	}
-
-	if len(url) == 0 {
-		fmt.Fprintf(os.Stderr, "No DB url given. Set ENV var or .env file %s\n", url)
+		fmt.Fprintf(os.Stderr, "No DB url given. Set ENV var or .env file %d\n", err)
 		os.Exit(1)
 	}
+
+	api := turso.CreateApi(settings)
+	api.GetLocations()
 
 	db, err := sql.Open("libsql", url)
 	if err != nil {
