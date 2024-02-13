@@ -1,6 +1,8 @@
 # GETH stack - Go, Echo, Turso and HTMX  by Quteo
 
-Full text active search on the Edge with turso + fly.io. An example project for getting following technologies to work with golang.
+Full text active search on the Edge with turso + fly.io. 
+
+Uses Golang and the following technologies.
 
 - HTMX
 - Echo
@@ -11,7 +13,7 @@ Full text active search on the Edge with turso + fly.io. An example project for 
 
 Graciously developed by https://quteo.com
 
-As there is a bunch of things that need to be generated and built for a full server restart, we use Air to handle all that for us.
+As there are a bunch of things that need to be generated and built for a full server restart, we use Air to handle all that for us.
 
 ## Prequisities
 
