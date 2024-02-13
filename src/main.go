@@ -9,24 +9,19 @@ import (
 
 	"goh/go-htmx/db"
 	"goh/go-htmx/routes"
-	"goh/go-htmx/turso"
-	"goh/go-htmx/utils"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
 
 func main() {
-	settings := utils.LoadSettings()
+	settings := LoadSettings()
 
-	url, err := settings.DB.GetURL()
+	url, err := settings.GetURL()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "No DB url given. Set ENV var or .env file %d\n", err)
 		os.Exit(1)
 	}
-
-	api := turso.CreateApi(settings)
-	api.GetLocations()
 
 	connection, err := db.CreateConnection(url)
 	if err != nil {

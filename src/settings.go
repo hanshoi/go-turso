@@ -8,12 +8,12 @@ import (
 	"github.com/joho/godotenv"
 )
 
-type DBConf struct {
+type Settings struct {
 	URL   string
 	Token string
 }
 
-func (c *DBConf) GetURL() (string, error) {
+func (c *Settings) GetURL() (string, error) {
 	url := c.URL
 	if len(c.Token) > 0 {
 		url = url + "?authToken=" + c.Token
@@ -25,12 +25,6 @@ func (c *DBConf) GetURL() (string, error) {
 	return url, nil
 }
 
-type Settings struct {
-	DB       DBConf
-	OrgName  string
-	ApiToken string
-}
-
 func LoadSettings() Settings {
 	err := godotenv.Load(".env")
 	if err != nil {
@@ -39,8 +33,6 @@ func LoadSettings() Settings {
 
 	url := os.Getenv("DB_URL")
 	token := os.Getenv("DB_TOKEN")
-	orgName := os.Getenv("ORG_NAME")
-	apiToken := os.Getenv("API_TOKEN")
 
-	return Settings{DBConf{url, token}, orgName, apiToken}
+	return Settings{url, token}
 }
