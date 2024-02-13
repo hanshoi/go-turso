@@ -2,6 +2,10 @@
 
 Full text active search on the Edge with turso + fly.io. 
 
+
+https://github.com/hanshoi/go-turso/assets/376152/656a20b3-e73f-4890-8d3f-e771b91977fc
+
+
 Uses Golang and the following technologies.
 
 - HTMX
