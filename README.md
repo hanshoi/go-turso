@@ -1,6 +1,6 @@
 # GETH stack - Go, Echo, Turso and HTMX  by Quteo
 
-This is a example project for getting following technologies to work with golang.
+Full text active search on the Edge with turso + fly.io. An example project for getting following technologies to work with golang.
 
 - HTMX
 - Echo
