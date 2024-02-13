@@ -1,4 +1,4 @@
-# HETTA - Htmx + Echo + Templ + Tailwind + AlpineJS by Quteo
+# GETH stack - Go, Echo, Turso and HTMX  by Quteo
 
 This is a example project for getting following technologies to work with golang.
 
@@ -16,21 +16,12 @@ As there is a bunch of things that need to be generated and built for a full ser
 ## Prequisities
 
 - install turso-cli https://docs.turso.tech/cli/introduction
-- install flyctl 
+- install flyctl https://fly.io/docs/hands-on/install-flyctl/
 
 ```shell
 npm install -D tailwindcss
 go install github.com/a-h/templ/cmd/templ@latest
 go install github.com/cosmtrek/air@latest
-go install -tags 'sqlite' github.com/golang-migrate/migrate/v4/cmd/migrate@latest
-```
-
-## Run
-
-```shell
-turso dev --db-file my.db
-migrate -database "sqlite://my.db" -path db/migrations up
-air server --port 3000
 ```
 
 ## Turso Remote DB
@@ -43,11 +34,37 @@ turso db create --enable-extensions test
 turso token create test
 turso db show test
 ```
-
-### Usage
+After this you should have a .env file in root of this project that looks like this.
 
 ```shell
-turso db shell solid-spitfire < db/migrations/000001_initial.up.sql
+DB_URL=libsql://<db-name>-<username>.turso.io
+DB_TOKEN=<some long token>
+```
+Now you are ready to roll.
+
+### Usage locally
+
+```shell
+turso db shell solid-spitfire < create_tables.sql
 air server --port 3000
 ```
 
+## Deploy
+
+You have a turso db already but to deploy it fully you need fly.io and their flyctl tool. 
+```shell
+fly launch
+```
+Check which url fly launched at and go there, this is your app now.
+
+
+
+## Disclaimer
+
+This project is for example and learning purposes. Go is not my main language, I'm just learning it while doing this.
+
+So pardon my spaghetti code!
+
+## License
+
+Do whatever, I don't care.
