@@ -29,6 +29,7 @@ As there are a bunch of things that need to be generated and built for a full se
 ```shell
 npm install -D tailwindcss
 go install github.com/a-h/templ/cmd/templ@latest
+go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
 go install github.com/cosmtrek/air@latest
 ```
 
