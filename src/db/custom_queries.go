@@ -7,6 +7,38 @@ import (
 	"database/sql"
 )
 
+const searchPeople = `-- name: SearchPeople :many
+SELECT first_name, last_name, title, company FROM searchable_people WHERE searchable_people MATCH ? || '*' limit 30
+`
+
+func (q *Queries) SearchPeople(ctx context.Context, dollar_1 string) ([]SearchablePerson, error) {
+	rows, err := q.db.QueryContext(ctx, searchPeople, dollar_1)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []SearchablePerson
+	for rows.Next() {
+		var i SearchablePerson
+		if err := rows.Scan(
+			&i.FirstName,
+			&i.LastName,
+			&i.Title,
+			&i.Company,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 func (q *Queries) CreateTestPeople(ctx context.Context) error {
 	firstnames := []string{"Tim", "John", "James", "Laura", "Chelsea", "Roger", "Charles", "JJ", "Kyle"}
 	lastnames := []string{"Smith", "Rogers", "Lemmings", "Tailor", "Butcher", "Priest", "Dalling"}
