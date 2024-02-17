@@ -7,9 +7,6 @@ import (
 	"goh/go-htmx/templates"
 	"goh/go-htmx/utils"
 
-	"database/sql"
-
-	"fmt"
 	"github.com/labstack/echo/v4"
 	"log"
 )
@@ -34,7 +31,7 @@ func search(ctx echo.Context, db *repo.Queries) error {
 	var people []repo.SearchablePerson
 	var err error
 	if len(keyword) > 0 {
-		people, err = db.SearchPeople(ctx.Request().Context(), sql.NullString{String: fmt.Sprintf("%s*", keyword)})
+		people, err = db.SearchPeople(ctx.Request().Context(), keyword)
 
 	} else {
 		people, err = db.FindAllPeople(ctx.Request().Context())
