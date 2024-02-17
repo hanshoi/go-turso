@@ -79,7 +79,7 @@ func (q *Queries) FindAllPeople(ctx context.Context) ([]SearchablePerson, error)
 }
 
 const searchPeople = `-- name: SearchPeople :many
-SELECT first_name, last_name, title, company FROM searchable_people WHERE searchable_people MATCH ? || '*' limit 30
+SELECT first_name, last_name, title, company FROM searchable_people WHERE searchable_people MATCH ? limit 30
 `
 
 func (q *Queries) SearchPeople(ctx context.Context, dollar_1 sql.NullString) ([]SearchablePerson, error) {
