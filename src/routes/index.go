@@ -9,7 +9,9 @@ import (
 
 	"database/sql"
 
+	"fmt"
 	"github.com/labstack/echo/v4"
+	"log"
 )
 
 type MyHandlerFunction func(echo.Context, *repo.Queries) error
@@ -32,13 +34,14 @@ func search(ctx echo.Context, db *repo.Queries) error {
 	var people []repo.SearchablePerson
 	var err error
 	if len(keyword) > 0 {
-		people, err = db.SearchPeople(ctx.Request().Context(), sql.NullString{String: keyword})
+		people, err = db.SearchPeople(ctx.Request().Context(), sql.NullString{String: fmt.Sprintf("%s*", keyword)})
 
 	} else {
 		people, err = db.FindAllPeople(ctx.Request().Context())
 	}
 
 	if err != nil {
+		log.Fatalln(err)
 		return err
 	}
 
@@ -48,7 +51,7 @@ func search(ctx echo.Context, db *repo.Queries) error {
 func people(ctx echo.Context, db *repo.Queries) error {
 	people, err := db.FindAllPeople(ctx.Request().Context())
 
-	if err == nil || len(people) == 0 {
+	if err != nil || len(people) == 0 {
 		return utils.RenderPage(ctx, http.StatusOK, templates.PeoplePageType, templates.EmptyListPage())
 	}
 	return utils.RenderPage(ctx, http.StatusOK, templates.PeoplePageType, templates.PeoplePage(people))
