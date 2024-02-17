@@ -21,6 +21,7 @@ As there is a bunch of things that need to be generated and built for a full ser
 ```shell
 npm install -D tailwindcss
 go install github.com/a-h/templ/cmd/templ@latest
+go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
 go install github.com/cosmtrek/air@latest
 ```
 

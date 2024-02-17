@@ -3,7 +3,7 @@ package templates
 import "goh/go-htmx/db"
 import "fmt"
 
-templ PeoplePage(people []db.Person) {
+templ PeoplePage(people []db.SearchablePerson) {
 	<div class="bg-gray-900">
 		<div class="mx-auto max-w-7xl">
 			<div class="bg-gray-900 py-10">
@@ -12,9 +12,6 @@ templ PeoplePage(people []db.Person) {
 						<div class="sm:flex-auto">
 							<h1 class="text-base font-semibold leading-6 text-white">People</h1>
 							<p class="mt-2 text-sm text-gray-300">A list of 10000 people.</p>
-						</div>
-						<div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-							<button type="button" class="block rounded-md bg-amber-500 px-3 py-2 text-center text-sm font-semibold text-white hover:bg-amber-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500">Add user</button>
 						</div>
 					</div>
 					<div class="mt-8 flow-root">
@@ -27,11 +24,6 @@ templ PeoplePage(people []db.Person) {
 											<th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-white sm:pl-0">Last Name</th>
 											<th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Title</th>
 											<th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Company</th>
-											<th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Age</th>
-											<th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Married</th>
-											<th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0">
-												<span class="sr-only">Edit</span>
-											</th>
 										</tr>
 									</thead>
 									<tbody class="divide-y divide-gray-800" id="search-results">
@@ -48,18 +40,13 @@ templ PeoplePage(people []db.Person) {
 	</div>
 }
 
-templ ListPeople(people []db.Person) {
+templ ListPeople(people []db.SearchablePerson) {
 	for _, person := range people {
 		<tr>
 			<td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-white sm:pl-0">{ person.FirstName }</td>
 			<td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-white sm:pl-0">{ person.LastName }</td>
 			<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-300">{ person.Title }</td>
 			<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-300">{ person.Company }</td>
-			<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-300">{ fmt.Sprintf("%v", person.Age) }</td>
-			<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-300">{ fmt.Sprintf("%v", person.Married) }</td>
-			<td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-				<a href="/detail/{ person.Id }" class="text-amber-400 hover:text-amber-300">Edit<span class="sr-only">, { person.FirstName } { person.LastName }</span></a>
-			</td>
 		</tr>
 	}
 }

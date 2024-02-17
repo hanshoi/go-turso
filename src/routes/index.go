@@ -8,46 +8,53 @@ import (
 	"goh/go-htmx/utils"
 
 	"database/sql"
+
 	"github.com/labstack/echo/v4"
 )
 
-type MyHandlerFunction func(echo.Context, *sql.DB) error
+type MyHandlerFunction func(echo.Context, *repo.Queries) error
 
-func CreateRoutes(app *echo.Echo, db *sql.DB) {
+func CreateRoutes(app *echo.Echo, db *repo.Queries) {
 	app.GET("/", wrap(people, db))
 	app.POST("/search/", wrap(search, db))
 	app.GET("/detail/:id", wrap(detail, db))
 	app.GET("/about/", about)
 }
 
-func wrap(handler MyHandlerFunction, db *sql.DB) echo.HandlerFunc {
+func wrap(handler MyHandlerFunction, db *repo.Queries) echo.HandlerFunc {
 	return func(ctx echo.Context) error {
 		return handler(ctx, db)
 	}
 }
 
-func search(ctx echo.Context, db *sql.DB) error {
+func search(ctx echo.Context, db *repo.Queries) error {
 	keyword := ctx.FormValue("search")
-	var people []repo.Person
+	var people []repo.SearchablePerson
+	var err error
 	if len(keyword) > 0 {
-		people = repo.SearchPeople(db, keyword)
+		people, err = db.SearchPeople(ctx.Request().Context(), sql.NullString{String: keyword})
+
 	} else {
-		people = repo.GetAllPeople(db)
+		people, err = db.FindAllPeople(ctx.Request().Context())
+	}
+
+	if err != nil {
+		return err
 	}
 
 	return utils.Render(ctx, http.StatusOK, templates.ListPeople(people))
 }
 
-func people(ctx echo.Context, db *sql.DB) error {
-	people := repo.GetAllPeople(db)
+func people(ctx echo.Context, db *repo.Queries) error {
+	people, err := db.FindAllPeople(ctx.Request().Context())
 
-	if len(people) == 0 {
+	if err == nil || len(people) == 0 {
 		return utils.RenderPage(ctx, http.StatusOK, templates.PeoplePageType, templates.EmptyListPage())
 	}
 	return utils.RenderPage(ctx, http.StatusOK, templates.PeoplePageType, templates.PeoplePage(people))
 }
 
-func detail(ctx echo.Context, db *sql.DB) error {
+func detail(ctx echo.Context, db *repo.Queries) error {
 	return utils.RenderPage(ctx, http.StatusOK, templates.PeoplePageType, templates.DetailPage())
 }
 
